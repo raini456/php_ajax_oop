@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+
+<title>L6 Economics - Random Name Generator</title>
+<meta http-equiv="Content-Type" content="text/html;">
+<link href="namegenerator.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+#head { /* this style is required for script's pop-up's title bar, change at your own risk */
+padding:3px 20px;
+position:relative;
+left:-20px;
+text-align:left;
+text-indent:-15px;
+font-family:verdana,arial,sans-serif;
+font-size:70%;
+border-bottom:2px groove silver;
+color:black;
+background-color:lightblue;"
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Start outer -->
+<div id="outer">
+
+<!-- Start header -->
+<div class="header">
+<!-- Header table -->
+<!-- End header table -->
+</div>
+<!-- End header -->
+
+<!-- BODY -->
+<div class="content">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td>&nbsp;</td>
+<tr>
+<td align="center" class="intro">Lower Sixth</td>
+<tr>
+<td align="center" class="intro">Economics</td>
+<tr>
+<td>&nbsp;</td>
+<tr>
+<td>&nbsp;</td>
+<tr>
+<td id="boxCell" align="center"><script type="text/javascript">
+
+function iecompattest(){
+return (document.compatMode && document.compatMode.indexOf("CSS")!=-1)? document.documentElement : document.body
+}
+
+var storeit, pop, storeit2, ie=document.body.filters? iecompattest() : 0
+function selectRandomMember(boxId, el) {
+if(document.getElementById('head')){
+storeit=boxId
+storeit2=el
+if (ie)
+el.parentNode.removeChild(pop)
+else
+document.body.removeChild(pop)
+setTimeout("selectRandomMember(storeit, storeit2)",500)
+return;
+}
+var box = document.getElementById(boxId),
+rand = Math.floor(Math.random() * box.options.length);
+pop = document.createElement('div')
+pop.innerHTML='<div id="head" style="width:100%;"><nobr>Lower 6th</nobr></div>'
+box.selectedIndex = rand;
+var lf=document.createElement('br')
+var noB=document.createElement('nobr')
+pop.appendChild(lf)
+var poptext=document.createTextNode(box.options[rand].text)
+var closer=document.createElement('input')
+closer.type='button'
+closer.value='OK'
+closer.style.fontSize='60%'
+closer.onclick=ie? function(){pop.parentNode.removeChild(pop)} : function(){document.body.removeChild(pop)}
+noB.appendChild(poptext)
+pop.appendChild(noB)
+pop.appendChild(closer)
+closer.style.position='absolute'
+closer.style.bottom='10px'
+closer.style.right='10px'
+pop.style.backgroundColor='silver'
+pop.style.visibility='hidden'
+pop.style.position='absolute'
+pop.style.border='3px outset black'
+pop.style.padding='0 20px 40px 20px'
+if (ie)
+el.parentNode.appendChild(pop)
+else
+document.body.appendChild(pop)
+if (document.documentElement.filters)
+document.getElementById('head').style.width=''
+var w=pop.offsetWidth
+if (document.documentElement.filters){
+pop.style.border='3px outset silver'
+pop.style.width=w-40+'px'
+document.getElementById('head').style.width=w-10+'px'
+document.getElementById('head').style.marginRight='-21px'
+document.getElementById('head').style.left='-21px'
+document.getElementById('head').style.borderBottomColor='#dddddd'
+pop.style.paddingRight=0
+}
+pop.style.left=ie? (ie.clientWidth-pop.offsetWidth)/2+3+'px' : (window.innerWidth-pop.offsetWidth)/2+'px'
+if (!ie)
+pop.style.top=el.parentNode.offsetTop+'px'
+pop.style.textAlign='center'
+pop.style.visibility='visible'
+
+} </script>
+<select style="display:none;" id="pupils">
+<option>John Burton</option>
+<option>Ashley Hall</option>
+<option>Edward Kay</option>
+<option>David Kitt</option>
+<option>Tom Large</option>
+<option>Anthony Lopez</option>
+<option>Charlotte Partridge</option>
+<option>Emily Phelps</option>
+<option>Tom Roskilly</option>
+<option>Jack Trueman</option>
+<!-- Add other pupils here... -->
+</select>
+&nbsp;<input type="button" onclick="selectRandomMember('pupils', this);"
+value="Select Random">
+</td>
+</table>
+</div>
+<!-- End BODY -->
+
+<!-- Start footer -->
+<div class="copyright"><span><br>
+</span></div>
+<!-- End footer -->
+
+</div>
+<!-- End Outer -->
+</html>
