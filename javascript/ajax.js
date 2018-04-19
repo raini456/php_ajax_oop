@@ -1,13 +1,12 @@
 function ajax(method, url, params, callback) {
  var xhr, propName, paramString = '';
-
  for (propName in params) {
   paramString += propName + '=' + params[propName] + '&';
  }
  xhr = new XMLHttpRequest();
  xhr.onreadystatechange = function () {
   if (xhr.readyState === 4 && xhr.status === 200) {
-   callback(xhr.responseText);
+   callback(xhr.responseText);   
   }
  };
  if (method === 'get') {

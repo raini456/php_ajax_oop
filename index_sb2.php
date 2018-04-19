@@ -5,7 +5,7 @@ require_once './classes/DbClass.php';
 require_once './classes/DbClassExt.php';
 require_once './classes/FilterForm.php';
 require_once './includes/data.php';
-require_once './js/ajax.js';
+//require_once './javascript/ajax.js';
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -13,6 +13,7 @@ require_once './js/ajax.js';
         <title>PHP_kurs</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="style/style.css">
+        <script src="./javascript/ajax.js" type="text/javascript"></script>
     </head>
     <body>
         <div id="main">
@@ -78,43 +79,10 @@ require_once './js/ajax.js';
                 <div id="content">
                     <!-- insert the page content here -->
                     <h1>Bitte registrieren Sie sich</h1>
+                    <div id="output">......</div><br>
                     <?php
-                    $salt = '234h4h35jhHSDJGASDS8734974238b9cbcb34287239';
-                    require_once 'includes/funktionen.php';
-                    //require_once 'includes/connect.php';
-                    if (isset($_POST['password'])) {
-                      $f = new FilterForm();
-                      $f->setFilter('vorname', 513);
-                      $f->setFilter('nachname', 513);
-                      $f->setFilter('email', FILTER_VALIDATE_EMAIL);
-                      $f->setFilter('password', 513);
-                      $s = $f->getScheme();
-                      $formData = $f->filter(INPUT_POST);
-                      $formData['password'] = sha1(SALT . $formData['password']);
-                      //datenbank
-                      try {
-                        $db = new DbClass('mysql:host=' . HOST . ';dbname=' . DB, USER, PASSWORD);
-                        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                      } catch (PDOException $e) {
-                        $e->getCode();
-                      }
-                      $db->setTable('user');
-                      $pw = $formData['password'];
-                      $email = $formData['email'];
-                      $sql = "SELECT id FROM user WHERE password='$pw' OR email='$email'";
-                      $stmt = $db->query($sql);
-                      $rows = $stmt->fetchAll();
-                      if ($rows === 0) {
-
-                        //Insert bei ankommenden Form Daten
-                        if (count($formData) === 4) {
-                          $db->insert($formData);
-                        }
-                      } else {
-                        echo "Pech jehabt, Alta!<br>Deine Email oda Dein <br>Passwort jibt es schon!<br>Probiers einfach nochma!";
-                      }
-                    }
-
+                    $message = "";
+                    require_once './includes/funktionen.php';
                     if (isset($_POST['password']) == false || empty($meldung) == false) {
                       ?>
                       <div class="form_settings">
@@ -135,9 +103,9 @@ require_once './js/ajax.js';
                               <input class="submit" type="submit" name="button" value="versenden">
                           </form>
                       </div>
-  <?php
-}
-?>
+                      <?php
+                    }
+                    ?>
                     <!-- ende content -->	
                 </div>
             </div>
@@ -149,13 +117,17 @@ require_once './js/ajax.js';
         </div>
         <script>
           (function () {
-              var method='post';
-              var url="./includes/data.php";
-              var params = document.querySelector('#password');
-              var callback=function(r);              
               var output = document.querySelector('#output');
-              ajax(method, url, params, callback);
-            
+              var emailField = document.querySelector('#email');
+              field.addEventListener('change', function () {
+                  ajax('post', './includes/mail.php', {email: emailField.value}, function (r) {
+                      if (r.length > 0) {
+                          text = r;                          
+                          output.innerHTML = text;
+                          emailField.style.backgroundColor = '#ff0000';
+                      }
+                  });
+              });
           })();
         </script>
         //an check schicken, hier SELECT-Abfrage
