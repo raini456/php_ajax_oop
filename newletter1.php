@@ -1,12 +1,3 @@
-<?php
-session_start();
-require_once './config.php';
-require_once './classes/DbClass.php';
-require_once './classes/DbClassExt.php';
-require_once './classes/FilterForm.php';
-require_once './includes/data.php';
-//require_once './javascript/ajax.js';
-?>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -24,31 +15,44 @@ require_once './includes/data.php';
                     <hr>
                     <div id="output">....</div>
                     <hr>                    
-                    <label for="inputEmail">Bitte Email eingeben</label><br>
+                    <label for="emailNewsletter" id="labelEmailNL">Bitte Email eingeben</label><br>
                     <input type="email" name="emailNewsletter" id="emailNewsletter">                    
                 </div>                
-        </div>
-        <script>
-          (function () {              
-              var output = document.querySelector('#output');
-              var emailNewsletter = document.querySelector('#emailNewsletter');
-              var requestNL="";
-              emailNewsletter.addEventListener('change', 
-              function () {
-                  requestNL=emailNewsletter.value;  
-                  //alert(requestNL);
-                  ajax('post', 'includes/newsletter.php', {emailNewsletter: requestNL}, function (r) {
-                      if (r.length > 0) {
-                          text = r;                          
-                          output.innerHTML = text;
-                          emailNewsletter.style.display='none';
-                          emailNewsletter.style.backgroundColor = '#ff0000';
-                          
-                      }
-                  });
-              });
-          })();
-        </script>
-        
+            </div>
+            <script>
+
+              (function () {
+                  var requestNL_all = {};
+//                  requestNL_all[0] = emailNewsletter.value;
+                  var output = document.querySelector('#output');
+                  var emailNewsletter = document.querySelector('#emailNewsletter');
+                  var labelEmailNL= document.querySelector('#labelEmailNL');
+                  var requestNL = "";
+
+                  emailNewsletter.addEventListener('change',
+                          function () {
+                              requestNL = emailNewsletter.value;
+                              ajax('post', 'includes/newsletter.php', {emailNewsletter: requestNL}, function (r) {
+                                  if (r.length > 0) {
+                                      text = r;
+                                      output.innerHTML = "<h1>" + text + "</h1>";
+                                      output.style.textAlign='center';
+                                      emailNewsletter.style.backgroundColor = '#ff0000';
+                                  }
+                                  if(r.length>20){
+                                    emailNewsletter.style.display='none';
+                                    labelEmailNL.style.display='none';
+                                    
+                                  }
+                              });
+                              requestNL_changed = emailNewsletter.value;
+                              //alert(requestNL_all[0] + ", " + requestNL_all[1]);
+//                              if (requestNL_all[0].length !== requestNL_all[0].length) {
+//                                  emailNewsletter.style.backgroundColor = '';
+//                                  requestNL_all=[];
+//                              }
+                          });
+              })();
+            </script>        
     </body>
 </html>

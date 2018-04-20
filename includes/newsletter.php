@@ -1,12 +1,15 @@
 <?php
 
 require_once '../classes/DbClass.php';
+require_once '../classes/DbClassExt.php';
+require_once '../classes/FilterForm.php';
 require_once 'funktionen.php';
 require_once '../config.php';
 $meldung = "";
 $emailNL = "";
 $emailNewsletter = filter_input(INPUT_POST, 'emailNewsletter', FILTER_VALIDATE_EMAIL);
-var_dump($_POST);
+$emailNewsletterStr = filter_input(INPUT_POST, 'emailNewsletter', FILTER_SANITIZE_STRING );
+//var_dump($emailNewsletterStr);
 if (isset($emailNewsletter) && $emailNewsletter !== "" && !empty($emailNewsletter)) {
   $emailNL = $emailNewsletter;
 }
@@ -20,27 +23,28 @@ if (!is_mail($emailNL)) {
     $e->getCode();
   }
   //$db->setTable('mail');
-  $sql1 = "SELECT id FROM mail WHERE email='$emailNewsletter'";
+  $sql1 = "SELECT id FROM mail WHERE email='".$emailNewsletterStr."'";
   $stmt1 = $db->query($sql1);
-  $rows = $stmt1->fetchAll(PDO::FETCH_BOTH); 
-  var_dump($rows);
-  if ($rows === 0) {
-    $meldung=$meldung."Name noch nicht vorhanden";
-  }
+  $rows = $stmt1->fetchAll(); 
+  //var_dump($rows);
+  if (!$rows > 0) {
+    $meldung=$meldung."Herzlichen Glückwunsch!<br>";
     //Insert bei ankommenden Form Daten
-//    $sql2 = "INSERT INTO mail(email) VALUES('$emailNL')";
-//    $stmt2 = $db->query($sql2);
-//    var_dump($stmt2);
-//    if (!$stmt2) {
-//      $meldung = $meldung = $sql2 . ":<br>Abbruch der Query";
-//    } else {
-//      $meldung = $meldung . "Sie haben sich registriert";
-//    }
-//  } else {
-//    $meldung = $meldung . "Deine Email gibt es schon!<br>Probiers einfach nochmal!";
-//  }
+    $sql2 = "INSERT INTO mail(email) VALUES('$emailNL')";
+    $stmt2 = $db->query($sql2);
+    //var_dump($stmt2);
+    if (!$stmt2) {
+      $meldung = $meldung = $sql2 . ":<br>Abbruch der Query";
+    } else{
+      $meldung = $meldung . "<br>Sie haben sich registriert";
+    }
+  }
+  else{
+    $meldung=$meldung."Name schon benutzt";   
+  }    
+  } 
   echo $meldung;
-}
+
 
 
 
