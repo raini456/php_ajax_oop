@@ -41,7 +41,9 @@ require_once './includes/data.php';
                       if (r.length > 0) {
                           text = r;                          
                           output.innerHTML = text;
+                          emailNewsletter.style.display='none';
                           emailNewsletter.style.backgroundColor = '#ff0000';
+                          
                       }
                   });
               });
